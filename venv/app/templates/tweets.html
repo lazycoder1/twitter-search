@@ -12,7 +12,7 @@
     <h3>
         <div align = "center">
             {% for tweet,id in tweets_list %}
-                <a href="https://www.twitter.com/statuses/{{ id }}">{{ tweet }}</a>
+                <a target = '_blank' href="https://www.twitter.com/statuses/{{ id }}">{{ tweet }}</a>
                 <br><br>
             {% endfor %}
         </div>

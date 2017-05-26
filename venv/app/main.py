@@ -1,8 +1,15 @@
 from flask import Flask, render_template, request
 import twitter
+
+
+
 app = Flask(__name__)
 
+
+#get the tweets for the search string
 def get_tweets(search_str):
+
+    #The api values
     api = twitter.Api(
         consumer_key='2aDiAbnRd49Vo7BHhrvniWjrG',
         consumer_secret='zJFiCFCHDE8JBBGrHpmFTKCnmnoDkxk1lhTYRGDuobaN46TiAX',
@@ -11,11 +18,18 @@ def get_tweets(search_str):
     )
     search_str = "\""+search_str+"\""
     result = api.GetSearch(term=search_str,result_type="mixed",count = 30,lang ="en")
+
     text_list = []
     id_list = []
+
     for i in result:
-        text_list.append(i.text)
-        id_list.append(i.id)
+        if i.retweeted_status:
+            text_list.append(i.retweeted_status.text)
+            id_list.append(i.retweeted_status.id)
+        else:
+            text_list.append(i.text)
+            id_list.append(i.id)
+
     return text_list,id_list
 
 @app.route('/',methods=['GET','POST'])
