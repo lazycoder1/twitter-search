@@ -20,7 +20,7 @@
         <form method="POST" action="\">
             <div class = "form-group" align="center">
                 {% for i in searched_list %}
-                <tr><input type = "submit" value = {{ i }} name="tweet"></tr>
+                <tr><input type = "submit" value = '{{ i }}' name="tweet"></tr>
                 {% endfor %}
             </div>
 
