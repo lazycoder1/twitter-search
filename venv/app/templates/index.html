@@ -15,7 +15,17 @@
             <input class = "bin bin-primary" type = "submit" value = "submit">
         </form>
         <br><br><br><br>
-        <h6>{{ error }}<h6>
+        <h6>{{ error }}</h6>
+        <br><br>
+        <form method="POST" action="\">
+            <div class = "form-group" align="center">
+                {% for i in searched_list %}
+                <tr><input type = "submit" value = {{ i }} name="tweet"></tr>
+                {% endfor %}
+            </div>
+
+        </form>
+
     </div>
 </body>
 </html>
