@@ -14,23 +14,26 @@ def get_tweets(search_str):
         consumer_key='2aDiAbnRd49Vo7BHhrvniWjrG',
         consumer_secret='zJFiCFCHDE8JBBGrHpmFTKCnmnoDkxk1lhTYRGDuobaN46TiAX',
         access_token_key='82617811-hmaOvxhA1Idji8MrnL7r9FEjSBfagoAWUEOjDtnfo',
-        access_token_secret='x4YGNDuQiB1hj1p5F3979KWvsKAbsn67KXAY4CqIds7mk'
+        access_token_secret='x4YGNDuQiB1hj1p5F3979KWvsKAbsn67KXAY4CqIds7mk',
+        tweet_mode='extended'
     )
     search_str = "\""+search_str+"\""
     result = api.GetSearch(term=search_str,result_type="mixed",count = 30,lang ="en")
 
-    text_list = []
+    text_list = []  #store the list of tweets here
     id_list = []
 
     for i in result:
         if i.retweeted_status:
-            text_list.append(i.retweeted_status.text)
+            text_list.append(i.retweeted_status.full_text)
             id_list.append(i.retweeted_status.id)
         else:
-            text_list.append(i.text)
+            text_list.append(i.full_text)
             id_list.append(i.id)
 
     return text_list,id_list
+
+
 
 @app.route('/',methods=['GET','POST'])
 def send():
