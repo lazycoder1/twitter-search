@@ -1,7 +1,8 @@
-import twitter_modules
+from modules import twitter_modules
+from google.cloud import datastore
 from google.cloud import datastore
 
-
+from modules import twitter_modules
 
 
 def store(text_list,id_list,search_str):
