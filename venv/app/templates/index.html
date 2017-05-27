@@ -2,25 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <title>Search Recent Tweets Here</title>
 </head>
 <body>
     <div align = "center">
         <h1>Enter search term to get the tweets</h1>
+        <br>
+
         <form method="POST" action="\">
-            <div class = "form-group">
-                <input type = "text" name = "tweet">
+            <div class = "form-group row">
+                <div class="col-md-4 col-md-offset-4">
+                    <input class="form-control" style="text-align:center;" type = "text" name = "tweet">
+                </div>
             </div>
-            <input class = "bin bin-primary" type = "submit" value = "submit">
+            <br>
+            <input class = "btn btn-primary btn-lg" type = "submit" value = "Search">
         </form>
+
+    </div>
+
         <br><br><br><br>
         <h6>{{ error }}</h6>
         <br><br>
         <form method="POST" action="\">
             <div class = "form-group" align="center">
                 {% for i in searched_list %}
-                <tr><input type = "submit" value = '{{ i }}' name="tweet"></tr>
+                <tr><input type = "submit" class="btn btn-default" value = '{{ i }}' name="tweet"></tr>
                 {% endfor %}
             </div>
 

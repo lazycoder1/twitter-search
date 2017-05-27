@@ -1,5 +1,7 @@
 indexes:
 - kind: Tweet
   properties:
+  - name: count
+    direction: desc
   - name: id_list
   - name: text_list
