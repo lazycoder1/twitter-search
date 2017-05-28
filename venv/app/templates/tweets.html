@@ -9,20 +9,25 @@
     <title>Search Results</title>
 </head>
 <body>
-    <h1 >The tweets with {{ search_str }} are ....</h1>
-
-    <br>
-    <br>
-    <h3>
-        <div align = "center">
-            {% for tweet,id in tweets_list %}
-                <a target = '_blank'  href="https://www.twitter.com/statuses/{{ id }}">{{ tweet }}</a>
-                <br><br>
+    <h1 style = "text-align: center" >The tweets with {{ search_str }} in them</h1>
+    <h4>
+        <table class="table-bordered">
+            <tr>
+                <th>No</th>
+                <th style = "text-align: center">Tweet</th>
+                <th>TimeStamp</th>
+            </tr>
+            {% for tweet,id,time in tweets_list %}
+            <tr>
+                <th>{{ loop.index }}</th>
+                <th><a target = '_blank'  href="https://www.twitter.com/statuses/{{ id }}">{{ tweet }}</a></th>
+                <th>{{ time }}</th>
+            </tr>
             {% endfor %}
-        </div>
-    </h3>
-    <br>
-
+            <br><br>
+        </table>
+    </h4>
+    <br><br>
     <div align="center">
         <form action="/"  >
             <input type="submit"  align = "center" value="Back" class="btn btn-primary btn-lg"/>
