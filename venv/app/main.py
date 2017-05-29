@@ -78,7 +78,10 @@ def send():
 
     return render_template('index.html',error = "",searched_list = searched_list)
 
-
+@app.route('/crontask',methods=['GET'])
+def update():
+    datastore_module.update()
+    return render_template('index.html',error = "")
 
 
 if __name__ == "__main__":

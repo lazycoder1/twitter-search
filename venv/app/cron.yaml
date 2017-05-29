@@ -1,0 +1,4 @@
+cron:
+- description: update sync
+  url: /crontask
+  schedule: every 1 hours
