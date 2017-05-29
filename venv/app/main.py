@@ -57,6 +57,6 @@ def send():
 
 if __name__ == "__main__":
     scheduler = BackgroundScheduler()
-    scheduler.add_job(datastore_module.update, 'interval', hours=1)
+    scheduler.add_job(datastore_module.update, 'interval', hours=0.02)
     scheduler.start()
     app.run()

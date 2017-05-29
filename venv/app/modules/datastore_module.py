@@ -23,18 +23,25 @@ def store(text_list,id_list,created_at,search_str):
 
 
 def union(a,b):
+    a = list(a)
+    b = list(b)
     return list(set(a).union(b))
 
 def update():
     searched_list = get_searched_items()
     for i in searched_list:
-        logging.debug(i,' update started')
-        time.sleep(5)
+
+        print(i,' update started')
+        
         new_text,new_id,new_time = twitter_module.get_tweets(i)
         old_text,old_id,old_time = get_from_db(i)
-        text_list = union(new_text,old_text)
-        id_list = union(new_id,old_id)
-        created_at = union(new_time,old_time)
+        new_text_id_time = zip(new_text,new_id,new_time)
+        old_text_id_time = zip(old_text,old_id,old_time)
+        union_zip = union(new_text_id_time,old_text_id_time)
+        text_list,id_list,created_at = zip(*union_zip)
+        text_list = list(text_list)
+        id_list = list(id_list)
+        created_at = list(created_at)
 
         client = datastore.Client('twitter-search-168617')
         task_key = client.key('Tweet', i)
