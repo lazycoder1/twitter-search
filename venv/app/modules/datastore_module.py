@@ -1,81 +1,118 @@
-from modules import twitter_module
 from google.cloud import datastore
-import logging
 from modules import twitter_module
-import time
+from datetime import datetime
 
 
+def strip_repeats(a,b,c):
+    zipped =zip(a,b,c)
+    zipped = list(zipped)
+    zipped = set(zipped)
+    zipped = list(zipped)
+    a,b,c = zip(*zipped)
+    a,b,c = convert_to_list(a,b,c)
+    return a,b,c
 
-
+def convert_to_list(a,b,c):
+    a=list(a)
+    b=list(b)
+    c=list(c)
+    return a,b,c
 
 
 
 def store(tweets_list,search_str):
     text_list, id_list, created_at = zip(*tweets_list)
-    text = list(text_list)
-    tweet_id = list(id_list)
-    Timestamp = list(created_at)
-
-
+    text,tweet_id,created_at = convert_to_list(text_list,id_list,created_at)
+    text,tweet_id,created_at=strip_repeats(text,tweet_id,created_at)
 
     client = datastore.Client('twitter-search-168617')    # Instantiates a client
+         # Saves the entity
+    table_values = []
+    size = 0
+    for i in range(len(text)):
+        kind = '_'+search_str.lower()
+        name = tweet_id[i]
+        task_key = client.key(kind,name)
+        task = client.get(task_key)
+        if task is None:
+            task = datastore.Entity(key=task_key)
+        else:
+            continue
+        size = size+1
+        task.update({
+            'created_at' : datetime.strptime(created_at[i], '%a %b %d %X %z %Y'),
+            'text_list': text[i],
+        })
+        table_values.append(task)
+    client.put_multi(table_values)
+
     kind = 'Tweet'
     name = search_str.lower()
     task_key = client.key(kind, name)
     task = datastore.Entity(key=task_key)
     task.update({
-        'size'  : len(text_list),
-        'created_at' : Timestamp,
-        'text_list' : text,
-        'id_list' : tweet_id,
-        'count' : 1
+        'size': size,
+        'count': 1
     })
-    client.put(task)      # Saves the entity
+    client.put(task)
+
     print('Saved {}: '.format(task.key.name))
 
 
 
-def union(a,b):
-    a = list(a)
-    b = list(b)
-    return list(set(a).union(b))
-
 def update():
     searched_list = get_searched_items()
+    client = datastore.Client('twitter-search-168617')
     for i in searched_list:
-
         print(i,' update started')
 
         new_text_id_time = twitter_module.get_tweets(i)
-        old_text_id_time = get_from_db(i)
-        union_zip = union(new_text_id_time,old_text_id_time)
-        text_list,id_list,created_at = zip(*union_zip)
-        text_list = list(text_list)
-        id_list = list(id_list)
-        created_at = list(created_at)
+        text_list,id_list,created_at = zip(*new_text_id_time)
+        text_list,id_list,created_at = convert_to_list(text_list,id_list,created_at)
+        text_list,id_list,created_at = strip_repeats(text_list,id_list,created_at)
+        size = 0
 
-        client = datastore.Client('twitter-search-168617')
-        task_key = client.key('Tweet', i)
+        for j in range(len(text_list)):
+            task_list = []
+            task_key = client.key('_'+i,id_list[j])
+            task = client.get(task_key)
+            if task is None:
+                task = datastore.Entity(key=task_key)
+            else:
+                continue
+            size +=1
+            task.update({
+                'created_at': datetime.strptime(created_at[j], '%a %b %d %X %z %Y'),
+                'text_list': text_list[j],
+            })
+            task_list.append(task)
+        client.put_multi(task_list)
+
+        kind = 'Tweet'
+        name = i
+        task_key = client.key(kind, name)
         task = client.get(task_key)
         task.update({
-            'size': len(text_list),
-            'created_at': created_at,
-            'text_list': text_list,
-            'id_list': id_list,
+            'size': task['size']+size,
+            'count': task['count'] + 1
         })
-        logging.debug(i, ' ended started')
-        client.put(task)  # Saves the entity
+        client.put(task)
+
+        print(i, ' ended')
 
 
 
 
 
-def get_searched_items():
+def get_searched_items(n=0):
     client = datastore.Client('twitter-search-168617')
     query = client.query(kind='Tweet')
     query.keys_only()
     query.order = ['-count']
-    results = list(query.fetch(10))
+    if n!=0:
+        results = list(query.fetch(n))
+    else:
+        results = list(query.fetch())
     searched_list = []
     for i in results:
         searched_list.append(i.key.name)
@@ -92,14 +129,26 @@ def to_tuple(text_list,id_list,created_at):
     zip_item = zip(text_list,id_list,created_at)
     return list(zip_item)
 
-def get_from_db(search_str):
+def check_if_present(search_str):
     client = datastore.Client('twitter-search-168617')
-    search_str = search_str
+    search_str = search_str.lower()
     task_key = client.key('Tweet', search_str)
     task = client.get(task_key)
     if task is None:
         return False
-    else:
-        return to_tuple(task['text_list'],task['id_list'],task['created_at'])
+    else :
+        return True
+
+
+def get_one_page_of_tasks(cursor=None,search_str=''):
+    client = datastore.Client('twitter-search-168617')
+    query = client.query(kind='_'+search_str)
+    query.order = ['-created_at']
+    query_iter = query.fetch(start_cursor=cursor, limit=20)
+    page = next(query_iter.pages)
+    tasks = list(page)
+    next_cursor = query_iter.next_page_token
+    return tasks, next_cursor
+
 
 

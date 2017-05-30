@@ -12,8 +12,10 @@
 <body>
     <h1 style = "text-align: center" >The tweets with {{ search_str }} in them</h1>
     <h3>
-        {{ pagination.info }}
-        {{ pagination.links }}
+
+        <a href="/tweets?cursor={{ next_cursor }}&search_str={{ search_str }}" class = "pagination" >Forward</a>
+
+
         <table class = "table-striped" >
           <thead>
             <tr>
@@ -23,17 +25,18 @@
             </tr>
           </thead>
           <tbody>
-            {% for text,id,time in tweets_list %}
+            {% for i in text %}
               <tr>
-                <td>{{ loop.index + (pagination.page-1) * 20 }}</td>
-                <th><a target = '_blank' href="https://www.twitter.com/statuses/{{ id }}">{{ text }}</a></th>
-                <td>{{ time }}</td>
+                <td>{{ loop.index  }}</td>
+                <th><a target = '_blank' href="https://www.twitter.com/statuses/{{ id[loop.index0] }}">{{ i }}</a></th>
+                <td>{{ time[loop.index0] }}</td>
               </tr>
             {% endfor %}
           </tbody>
         </table>
-        {{ pagination.links }}
+
     </h3>
+    <h1>{{ error }}</h1>
     <br><br>
     <div align="center">
         <form action="/"  >
