@@ -3,9 +3,7 @@ from modules import twitter_module
 from datetime import datetime
 
 #To get the appengine library to work ..
-'''import dev_appserver
-dev_appserver.fix_sys_path()'''
-from google.appengine.api import taskqueue
+
 
 def strip_repeats(a,b,c):
     zipped =zip(a,b,c)
@@ -154,7 +152,7 @@ def get_one_page_of_tasks(cursor=None,search_str=''):
     next_cursor = query_iter.next_page_token
     return tasks, next_cursor
 
-def create_task_queue():
+'''def create_task_queue():
     task = taskqueue.add(
         url='/update_counter',
         target='worker',
@@ -197,5 +195,5 @@ def reduce_api_rate_count():
         return
     task.update({
         task['app_1']: task['app_1'] - 1
-    })
+    })'''
 

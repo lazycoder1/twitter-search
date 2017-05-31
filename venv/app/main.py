@@ -86,10 +86,10 @@ def update():
     datastore_module.update()
     return render_template('index.html',error = "")
 
-@app.route('/update_counter',methods=['GET'])
+'''@app.route('/update_counter',methods=['GET'])
 def reduce_rate_count():
     datastore_module.reduce_api_rate_count()
-    return render_template('index.html', error="")
+    return render_template('index.html', error="")'''
 
 
 if __name__ == "__main__":

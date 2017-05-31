@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e79141a9-31d5-4132-b888-f5c8ee313ecb" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/venv/app/main.py" afterPath="$PROJECT_DIR$/venv/app/main.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/venv/app/modules/datastore_module.py" afterPath="$PROJECT_DIR$/venv/app/modules/datastore_module.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,8 +45,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/app/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="731">
-              <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+            <state relative-caret-position="667">
+              <caret line="87" column="0" lean-forward="true" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
               <folding>
                 <element signature="e#0#69#0" expanded="true" />
               </folding>
@@ -68,8 +69,8 @@
       <file leaf-file-name="datastore_module.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/venv/app/modules/datastore_module.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="31" lean-forward="false" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
+            <state relative-caret-position="752">
+              <caret line="196" column="40" lean-forward="true" selection-start-line="196" selection-start-column="40" selection-end-line="196" selection-end-column="40" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -158,8 +159,8 @@
         <option value="$PROJECT_DIR$/venv/app/templates/tweets.html" />
         <option value="$PROJECT_DIR$/venv/app/templates/END.html" />
         <option value="$PROJECT_DIR$/venv/app/modules/twitter_config.py" />
-        <option value="$PROJECT_DIR$/venv/app/main.py" />
         <option value="$PROJECT_DIR$/venv/app/modules/twitter_module.py" />
+        <option value="$PROJECT_DIR$/venv/app/main.py" />
         <option value="$PROJECT_DIR$/venv/app/modules/datastore_module.py" />
       </list>
     </option>
@@ -593,7 +594,14 @@
       <option name="project" value="LOCAL" />
       <updated>1496211834377</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="changed the database model">
+      <created>1496212027722</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1496212027722</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1003,16 +1011,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/app/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="731">
-          <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#69#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/app/appengine_config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -1039,10 +1037,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/venv/app/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="667">
+          <caret line="87" column="0" lean-forward="true" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#69#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/venv/app/modules/datastore_module.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="31" lean-forward="false" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
+        <state relative-caret-position="752">
+          <caret line="196" column="40" lean-forward="true" selection-start-line="196" selection-start-column="40" selection-end-line="196" selection-end-column="40" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
           </folding>
