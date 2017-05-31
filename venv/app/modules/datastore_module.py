@@ -3,8 +3,8 @@ from modules import twitter_module
 from datetime import datetime
 
 #To get the appengine library to work ..
-import dev_appserver
-dev_appserver.fix_sys_path()
+'''import dev_appserver
+dev_appserver.fix_sys_path()'''
 from google.appengine.api import taskqueue
 
 def strip_repeats(a,b,c):
