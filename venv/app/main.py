@@ -38,9 +38,8 @@ def page(search_str=None):
         time = []
         for i in task:
             text.append(i['text_list'])
-            id.append(i.key.name)
+            id.append(i.key.id)
             time.append(i['created_at'])
-
 
         if len(text) == 0:
             return render_template('END.html',error="YOU HAVE REACHED THE END")
@@ -71,7 +70,7 @@ def send():
                 if datastore_module.check_if_present(search_str): #if present in the server
                     datastore_module.increment_count(search_str.lower())    #track how many times a given search result is searched
                     return redirect(url_for('page'),code=307)
-                tweets_list = twitter_module.get_tweets(search_str) #if not present ,ask twitter
+                tweets_list = twitter_module.get_tweets(search_str,1) #if not present ,ask twitter
                 if tweets_list:
                     datastore_module.store(tweets_list, search_str)
                     return redirect(url_for('page'),code=307)
@@ -86,6 +85,11 @@ def send():
 def update():
     datastore_module.update()
     return render_template('index.html',error = "")
+
+@app.route('/update_counter',methods=['GET'])
+def reduce_rate_count():
+    datastore_module.reduce_api_rate_count()
+    return render_template('index.html', error="")
 
 
 if __name__ == "__main__":

@@ -2,6 +2,10 @@ from google.cloud import datastore
 from modules import twitter_module
 from datetime import datetime
 
+#To get the appengine library to work ..
+import dev_appserver
+dev_appserver.fix_sys_path()
+from google.appengine.api import taskqueue
 
 def strip_repeats(a,b,c):
     zipped =zip(a,b,c)
@@ -66,7 +70,7 @@ def update():
     for i in searched_list:
         print(i,' update started')
 
-        new_text_id_time = twitter_module.get_tweets(i)
+        new_text_id_time = twitter_module.get_tweets(i,2)
         text_list,id_list,created_at = zip(*new_text_id_time)
         text_list,id_list,created_at = convert_to_list(text_list,id_list,created_at)
         text_list,id_list,created_at = strip_repeats(text_list,id_list,created_at)
@@ -150,5 +154,48 @@ def get_one_page_of_tasks(cursor=None,search_str=''):
     next_cursor = query_iter.next_page_token
     return tasks, next_cursor
 
+def create_task_queue():
+    task = taskqueue.add(
+        url='/update_counter',
+        target='worker',
+        params={'app_name': 'app_1'},
+        countdown = 300
+    )
+    print('task_started')
 
+def task_full(use):
+    client = datastore.Client('twitter-search-16817')
+    name = 'twitter-rate'
+    kind = 'Tweet-api'
+    task_key = client.key(kind, name)
+    task = client.get(task_key)
+    if task is None:
+        task = datastore.Entity(key=task_key)
+        task.update({
+            task['app_1'] : 1
+        })
+    else:
+        if task['app_1'] >= 400 & use == 2:
+            return True
+        elif task['app_1'] >= 440 & use == 1:
+            return True
+
+        task.update({
+            task['app_1'] : task['app_1']+1
+        })
+
+        create_task_queue()
+        return False
+
+def reduce_api_rate_count():
+    client = datastore.Client('twitter-search-16817')
+    name = 'twitter-rate'
+    kind = 'Tweet-api'
+    task_key = client.key(kind, name)
+    task = client.get(task_key)
+    if task['app_1'] == 0:
+        return
+    task.update({
+        task['app_1']: task['app_1'] - 1
+    })
 
